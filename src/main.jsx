@@ -1000,7 +1000,7 @@ createRoot(document.getElementById('root')).render(
 );
 
 # Css modules
-*/
+
 import { createRoot } from 'react-dom/client';
 import styles from './Button.module.css';
 
@@ -1015,4 +1015,240 @@ function App() {
 }
 createRoot(document.getElementById('root')).render(
   <App />
+);
+#21-08-2025
+#we will start with routing in react
+
+import {createRoot} from 'react-dom/client'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+function Home(){
+  return(
+    <h1>Home Page!</h1>
+  );
+};
+
+function About(){
+  return(
+    <h1>About Page!</h1>
+  );
+};
+
+function Contact(){
+  return(
+    <h1>Contact Page!</h1>
+  );
+};
+
+function App(){
+  return(
+  <>
+  <BrowserRouter>
+  <nav>
+    <Link to='/'>Home!</ink> |{""}
+    <Link to='/about'>About!</Link> |{''}
+    <Link to='/contact'>Contact!</Link>
+  </nav>
+  <Routes>
+    <Route path='/' element={<Home/>}/>
+    <Route path='/about' element={<About/>}/>
+    <Route path='/contact' element={<Contact/>}/>
+  </Routes>
+  </BrowserRouter>
+  </>
+  );
+};
+createRoot(document.getElementById('root')).render(
+  <App />
+);
+#Now we will move onto nested routes
+
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom';
+
+function Home() {
+  return <h1>HomePage!</h1>;
+}
+
+function Product() {
+  return (
+    <>
+      <h1>Product Page :)</h1>
+      <nav style={{ marginBottom: '20px' }}>
+        <Link to="cars">Car!</Link> |{" "}
+        <Link to="bikes">Bikes!</Link>
+      </nav>
+      <Outlet /> {/* Nested routes will render here }
+    </>
+  );
+}
+function CarProducts() {
+  return (
+    <div>
+      <h2>Cars</h2>
+      <ul>
+        <li>Audi</li>
+        <li>BMW</li>
+        <li>Volvo</li>
+      </ul>
+    </div>
+  );
+}
+
+function BikeProducts() {
+  return (
+    <div>
+      <h2>Bikes</h2>
+      <ul>
+        <li>Yamaha</li>
+        <li>Suzuki</li>
+        <li>Honda</li>
+      </ul>
+    </div>
+  );
+}
+
+function Contact() {
+  return <h1>Contact Page</h1>;
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/products">Products</Link> |{" "}
+        <Link to="/contact">Contact</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Product />}>
+          <Route path="cars" element={<CarProducts />} />
+          <Route path="bikes" element={<BikeProducts />} />
+        </Route>
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+createRoot(document.getElementById('root')).render(<App />);
+#Now we willl move onto usestate Hooks
+
+import { createRoot } from 'react-dom/client';
+import {useState} from 'react';
+function FavColor(){
+const[color,setColor]=useState('')
+return(
+  <>
+  <h1>Your Favourite Color is  {color}!</h1>
+  <button type='button' onClick={()=>setColor('Blue')}>Blue</button>
+  <button type='button' onClick={()=>setColor('Red')}>Red</button>
+  <button type='button' onClick={()=>setColor('Black')}>Black</button>
+  <button type='button' onClick={()=>setColor('Yellow')}>Yellow</button>
+  </>
+);
+}
+createRoot(document.getElementById('root')).render(
+  <FavColor/>
+);
+# now we will move on to use effect hooks
+
+import { createRoot } from 'react-dom/client';
+import {useState,useEffect} from 'react';
+function Timer(){
+const[count,setCount]=useState(0);
+useEffect(()=>{
+  setTimeout(()=>{
+  setCount((count)=>count+1)
+  },1000);
+  return()=>{
+  clearTimeout(Timer),[]
+}
+}
+);
+
+return<h1>I have rendered {count} Times!</h1>
+}
+createRoot(document.getElementById('root')).render(
+  <Timer/>
+);
+#now we will move onto usecontext
+
+import { useState, createContext, useContext } from 'react';
+import { createRoot } from 'react-dom/client';
+
+const UserContext = createContext();
+
+function Component1() {
+  const [user, setUser] = useState("Bilal");
+
+  return (
+    <UserContext.Provider value={user}>
+      <h1>Hello {user}!</h1>
+      <Component2/>
+    </UserContext.Provider>
+  );
+}
+function Component2(){
+const user = useContext(UserContext);  
+  return(
+    <>
+    <h1>Hi{user} from component 2 </h1>
+    <Component3 />
+    </>
+    
+  );
+}
+function Component3() {
+  const user = useContext(UserContext);
+
+  return (
+    <>
+      <h1>In Component 3</h1>
+      <h2>Hello {user} again!</h2>
+    </>
+  );
+}
+createRoot(document.getElementById('root')).render(
+  <Component1 />
+);
+*/
+import { createRoot } from 'react-dom/client';
+import {useState} from 'react'
+
+function SignIn(){
+
+const [name,setName]=useState('')
+const [password,setPassword]=useState('') 
+
+function handelChange(e){
+setName(e.target.value);  
+}
+
+function handelChange1(event){
+setPassword(event.target.value);  
+}
+
+function handelSubmit(){
+e.preventDefault();  
+alert(`Welcome ${name}`)  
+}
+
+return(
+  <>
+    <form onSubmit={handelSubmit}>
+    <label>Enter Your Username :
+      <input type='text' name='Username' value={name} onChange={handelChange}/>
+    </label>
+    <label>Enter Your Password :
+      <input type='password' name='password' value={password} onChange={handelChange1}/>
+    </label>
+    <button>Sign-In</button>
+    </form>
+  </>
+);
+}
+createRoot(document.getElementById('root')).render(
+  <SignIn/>
 );
